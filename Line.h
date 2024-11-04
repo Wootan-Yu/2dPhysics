@@ -13,5 +13,4 @@ public:
 	void draw(sf::RenderWindow& window) const;
 	void clear();
 
-	void printColor();
 };
