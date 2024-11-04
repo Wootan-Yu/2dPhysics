@@ -1,4 +1,6 @@
 #include "Force.h"
+#include <algorithm>
+
 
 //drag - resistive force acting in the opposite direction of the relative motion
 //		 of any moving object with respect to surrounding liquid
@@ -25,6 +27,7 @@ Vec2 Force::GenerateDragForce(const Particle& particle, float k)
 	return dragForce;
 }
 
+
 //todo: generate friction force
 // friction - is a contact force that resist sliding between surfaces
 //		2 types of friction:
@@ -48,20 +51,70 @@ Vec2 Force::GenerateFrictionForce(const Particle& particle, float k)
 	return frictionForce;
 }
 
+
 //todo: generate gravitational force
-Vec2 Force::GenerateGravitationalForce(const Particle& a, const Particle& b, float G)
+// every object with mass exerts a gravitational force on every other object
+
+//		gravitationalAttractionForce = universal_GravitationConstant * ((mass_a * mass_b) / magnitudeDistance_squared) * direction_of_the_attractionForce
+Vec2 Force::GenerateGravitationalForce(const Particle& a, const Particle& b, float G, float minDistance, float maxDistance)
 {
+	//distance between 2 objects
 	Vec2 distance = b.m_position - a.m_position;
 
 	float distanceSquared = distance.MagnitudeSquared();
 
+
+	//this is only used to feel the attraction between objects
+	distanceSquared = std::clamp(distanceSquared, minDistance, maxDistance); //clamp the values of the distance (for some interesting visual effects)
+
+
+	//direction of the attraction force
 	Vec2 attractionDirection = distance.UnitVector();
+
+	//strength of the attraction force
 	float attractionMagnitude = G * (a.m_mass * b.m_mass) / distanceSquared;
 
+	//final resulting attraction of force vector
 	Vec2 attractionForce = attractionDirection * attractionMagnitude;
-
 	return attractionForce;
 }
 
 
 //todo: generate spring force
+// spring force - calculate according to Hooke's law, which states that
+//				  "the force of the spring is proportional to the displacement of the spring(extanded or compressed)"
+
+//		springForce = spring_constant(-k) * spring_displacement(deltaLength)
+Vec2 Force::GenerateSpringForce(const Particle& particle, Vec2 anchor, float restLength, float k)
+{
+	//calculate the distance between the anchor and the object
+	Vec2 distance = particle.m_position - anchor;
+
+	//find the spring displacement considering the rest length
+	float displacement = distance.Magnitude() - restLength;
+
+	//calculate the direction and the magnitude of the spring force
+	Vec2 springDirection = distance.UnitVector();
+	float springMagnitude = -k * displacement;
+
+	//calculate the final resulting spring force vector
+	Vec2 springForce = springDirection * springMagnitude;
+	return springForce;
+}
+
+Vec2 Force::GenerateSpringForce(const Particle& a, const Particle& b, float restLength, float k)
+{
+	//calculate the distance between 2 particles
+	Vec2 distance = a.m_position - b.m_position;
+
+	//find the spring displacement considering the rest length
+	float displacement = distance.Magnitude() - restLength;
+
+	//calculate the direction and the magnitude of the spring force
+	Vec2 springDirection = distance.UnitVector();
+	float springMagnitude = -k * displacement;
+
+	//calculate the final resulting spring force vector
+	Vec2 springForce = springDirection * springMagnitude;
+	return springForce;
+}

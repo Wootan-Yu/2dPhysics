@@ -5,12 +5,19 @@
 Particle::Particle()
 	: m_position(Vec2(0.f,0.f)), m_mass(0)
 {
-
+	/*m_circle.setPointCount(100);
+	m_circle.setOrigin(m_circle.getRadius(), m_circle.getRadius());
+	m_circle.setFillColor(sf::Color::White);
+	m_circle.setRadius(10.f);*/
 }
 
-Particle::Particle(float x, float y, float mass)
-	: m_position(Vec2(x,y)), m_mass(mass)
+Particle::Particle(float x, float y, float mass, float radius, const sf::Color& color)
+	: m_position(Vec2(x,y)), m_mass(mass), m_radius(radius)
 {
+	m_circle.setPointCount(100);
+	m_circle.setOrigin(m_circle.getRadius(), m_circle.getRadius());
+	m_circle.setFillColor(color);
+	m_circle.setRadius(m_radius);
 	//std::cout << "particle constructor called!" << '\n';
 }
 
@@ -60,4 +67,36 @@ void Particle::Integrate(float deltaTime)
 	m_position += m_velocity * deltaTime;
 
 	ClearForces();
+}
+
+//todo: draw function
+void Particle::draw(sf::RenderWindow& window)
+{
+	window.draw(m_circle);
+}
+
+void Particle::setCirclePosition(float x, float y)
+{
+	m_circle.setPosition(sf::Vector2f(x, y));
+}
+
+void Particle::setCircleRadius(float radius)
+{
+	m_radius = radius;
+	m_circle.setRadius(radius);
+}
+
+float Particle::getRadius() const
+{
+	return m_circle.getRadius();
+}
+
+void Particle::setCircleColor(const sf::Color& color)
+{
+	m_circle.setFillColor(color);
+}
+
+void Particle::setOrigin()
+{
+	m_circle.setOrigin(m_radius, m_radius);
 }
