@@ -314,7 +314,7 @@ void Application::sMovement()
 	sf::Time currentTime = m_clock.getElapsedTime();
 
 	//delta time - how many pixels we want to move PER SECONDS (not per frame)
-	float deltaTime = (currentTime.asMilliseconds() - prevTime) / 1000000.f;
+	float deltaTime = (currentTime.asMilliseconds() - prevTime) / 10000000.f;
 	prevTime = currentTime.asMilliseconds();
 
 	//'gravitational attraction' force
@@ -402,7 +402,7 @@ void Application::sMovement()
 	for (auto& i : m_particles)
 	{
 		// (implicit euler integration)
-		i.IntegrateVerlet(deltaTime);
+		i.IntegrateEuler(deltaTime);
 	}
 }
 
