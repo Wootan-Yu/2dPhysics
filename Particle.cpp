@@ -3,12 +3,7 @@
 #include "Constants.h"
 
 Particle::Particle()
-	: m_position(Vec2(0.f,0.f)), m_mass(0)
 {
-	/*m_circle.setPointCount(100);
-	m_circle.setOrigin(m_circle.getRadius(), m_circle.getRadius());
-	m_circle.setFillColor(sf::Color::White);
-	m_circle.setRadius(10.f);*/
 }
 
 Particle::Particle(float x, float y, float mass, float radius, const sf::Color& color)
@@ -32,7 +27,7 @@ void Particle::ClearForces()
 	sumForces = Vec2(0.f, 0.f);
 }
 
-void Particle::Integrate(float deltaTime)
+void Particle::IntegrateEuler(float deltaTime)
 {
 	if (m_mass != 0.f)
 	{
@@ -65,6 +60,28 @@ void Particle::Integrate(float deltaTime)
 
 	//integrate the 'velocity' to find the 'new position' (position = integralSign(velocity * deltaTime))
 	m_position += m_velocity * deltaTime;
+
+	ClearForces();
+}
+
+void Particle::IntegrateVerlet(float deltaTime)
+{
+	// 2. verlet integration - provide great accuracy than implicit euler and less memory usage when simulating 'large number of particles'
+	//		pos.x(n+1) = pos.x(n) + (pos.x(n) - pos.x(n-1)) + acceleration * squared(deltaTime)  (more intuitive formula)
+	// or	pos.x(n+1) = (2 * pos.x(n)) - pos.x(n-1) + acceleration * squared(deltaTime)
+
+
+	//velocity = (pos.x(n) - pos.x(n-1))
+	m_velocity = m_position - m_oldPosition;
+
+	//current position becomes old position
+	m_oldPosition = m_position;
+
+	//compute acceleration using a = F/m from F = ma
+	m_acceleration = sumForces / m_mass;
+
+	//estimate new position using verlet integration
+	m_position += m_velocity + m_acceleration * deltaTime * deltaTime;
 
 	ClearForces();
 }

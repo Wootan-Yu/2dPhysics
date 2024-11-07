@@ -19,7 +19,7 @@ void Application::init(const std::string& path)
 
 	//read config file
 	std::ifstream fin(path);
-	
+
 	while (fin >> m_type)
 	{
 		if (m_type == "Particle")
@@ -70,30 +70,72 @@ void Application::spawnLine()
 {
 	m_lines.reserve(NUM_PARTICLES);
 	//spring (connection 1, index = 0)
-	Line spring(
-		sf::Vector2f(anchor.x, anchor.y),
-		sf::Vector2f(m_particles[0].m_position.x, m_particles[0].m_position.y),
-		sf::Color::Magenta
-	);
-	m_lines.emplace_back(spring);
+	//Line spring(
+	//	sf::Vector2f(anchor.x, anchor.y),
+	//	sf::Vector2f(m_particles[0].m_position.x, m_particles[0].m_position.y),
+	//	sf::Color::Magenta
+	//);
+	//m_lines.emplace_back(spring);
 
-	for (int i = 1; i < NUM_PARTICLES - 1; i++) //(index = 1-12)
-	{
-		int currParticle = i;
-		int nextParticle = i + 1;
-		Line spring(
-			sf::Vector2f(m_particles[currParticle].m_position.x, m_particles[currParticle].m_position.y),
-			sf::Vector2f(m_particles[nextParticle].m_position.x, m_particles[nextParticle].m_position.y),
-			sf::Color::White
-		);
-		m_lines.emplace_back(spring);
-	}
+	//for (int i = 1; i < NUM_PARTICLES - 1; i++) //(index = 1-12)
+	//{
+	//	int currParticle = i;
+	//	int nextParticle = i + 1;
+	//	Line spring(
+	//		sf::Vector2f(m_particles[currParticle].m_position.x, m_particles[currParticle].m_position.y),
+	//		sf::Vector2f(m_particles[nextParticle].m_position.x, m_particles[nextParticle].m_position.y),
+	//		sf::Color::White
+	//	);
+	//	m_lines.emplace_back(spring);
+	//}
+
+	Line s1(
+		sf::Vector2f(m_particles[0].m_position.x, m_particles[0].m_position.y),
+		sf::Vector2f(m_particles[1].m_position.x, m_particles[1].m_position.y),
+		sf::Color::White
+	);
+	m_lines.emplace_back(s1);
+
+	Line s2(
+		sf::Vector2f(m_particles[1].m_position.x, m_particles[1].m_position.y),
+		sf::Vector2f(m_particles[2].m_position.x, m_particles[2].m_position.y),
+		sf::Color::White
+	);
+	m_lines.emplace_back(s2);
+
+	Line s3(
+		sf::Vector2f(m_particles[2].m_position.x, m_particles[2].m_position.y),
+		sf::Vector2f(m_particles[3].m_position.x, m_particles[3].m_position.y),
+		sf::Color::White
+	);
+	m_lines.emplace_back(s3);
+
+	Line s4(
+		sf::Vector2f(m_particles[3].m_position.x, m_particles[3].m_position.y),
+		sf::Vector2f(m_particles[0].m_position.x, m_particles[0].m_position.y),
+		sf::Color::White
+	);
+	m_lines.emplace_back(s4);
+
+	Line s5(
+		sf::Vector2f(m_particles[0].m_position.x, m_particles[0].m_position.y),
+		sf::Vector2f(m_particles[2].m_position.x, m_particles[2].m_position.y),
+		sf::Color::White
+	);
+	m_lines.emplace_back(s5);
+
+	Line s6(
+		sf::Vector2f(m_particles[1].m_position.x, m_particles[1].m_position.y),
+		sf::Vector2f(m_particles[3].m_position.x, m_particles[3].m_position.y),
+		sf::Color::White
+	);
+	m_lines.emplace_back(s6);
 }
 
 void Application::spawnParticle()
 {
 	m_particles.reserve(NUM_PARTICLES);
-	
+
 	//for (auto& i : m_particleConfigStorage)
 	//{
 	//	m_particle.m_position = Vec2(i.X, i.Y); //attributes of particle
@@ -102,23 +144,9 @@ void Application::spawnParticle()
 	//	m_particles.emplace_back(m_particle);
 	//}
 
-	anchor = Vec2(m_window.getSize().x / 2.f, 30.f);
-	
-	//bob of the spring
-	/*m_particles[0].m_position = Vec2(m_window.getSize().x / 2.f, m_window.getSize().y / 2.f);
-	m_particles[0].setCircleColor(sf::Color::Green);
-	m_particles[0].setOrigin();*/
+	//anchor = Vec2(m_window.getSize().x / 2.f, 30.f);
 
-	/*Particle p1(m_window.getSize().x / 2.f, m_window.getSize().y / 2.f, 5.f, 20.f, sf::Color::White);
-	p1.setOrigin();
-	m_particles.emplace_back(p1);*/
-
-	//anchor
-	//m_particles[1].m_position = Vec2(anchor.x, anchor.y); //attributes of particle
-	//m_particles[1].setCircleColor(sf::Color::Red);
-	//m_particles[1].setOrigin();
-
-	Particle originP(anchor.x, anchor.y, 0.f, 5.f, sf::Color::Red);
+	/*Particle originP(anchor.x, anchor.y, 0.f, 5.f, sf::Color::Red);
 	originP.setOrigin();
 	m_particles.emplace_back(originP);
 
@@ -127,7 +155,23 @@ void Application::spawnParticle()
 		Particle p(anchor.x, anchor.y + (i * restLength), 2.f, 6.f, sf::Color::White);
 		p.setOrigin();
 		m_particles.emplace_back(p);
-	}
+	}*/
+
+	Particle a(100.f, 100.f, 1.f, 6.f, sf::Color::Red);
+	a.setOrigin();
+	m_particles.emplace_back(a);
+
+	Particle b(300.f, 100.f, 1.f, 6.f, sf::Color::Red);
+	b.setOrigin();
+	m_particles.emplace_back(b);
+
+	Particle c(300.f, 300.f, 1.f, 6.f, sf::Color::Red);
+	c.setOrigin();
+	m_particles.emplace_back(c);
+
+	Particle d(100.f, 300.f, 1.f, 6.f, sf::Color::Red);
+	d.setOrigin();
+	m_particles.emplace_back(d);
 
 	/*for (int i = 0; i < numParticle; i++)
 	{
@@ -160,39 +204,39 @@ void Application::sUserInput()
 		{
 			switch (event.key.code)
 			{
-				case sf::Keyboard::Q:
-					m_running = false;
-					break;
-				case sf::Keyboard::Up:
-					m_pushForce.y = -50.f * PIXEL_PER_METER;
-					break;
-				case sf::Keyboard::Right:
-					m_pushForce.x = 50.f * PIXEL_PER_METER;
-					break;
-				case sf::Keyboard::Down:
-					m_pushForce.y = 50.f * PIXEL_PER_METER;
-					break;
-				case sf::Keyboard::Left:
-					m_pushForce.x = -50.f * PIXEL_PER_METER;
-					break;
+			case sf::Keyboard::Q:
+				m_running = false;
+				break;
+			case sf::Keyboard::Up:
+				m_pushForce.y = -50.f * PIXEL_PER_METER;
+				break;
+			case sf::Keyboard::Right:
+				m_pushForce.x = 50.f * PIXEL_PER_METER;
+				break;
+			case sf::Keyboard::Down:
+				m_pushForce.y = 50.f * PIXEL_PER_METER;
+				break;
+			case sf::Keyboard::Left:
+				m_pushForce.x = -50.f * PIXEL_PER_METER;
+				break;
 			}
 		}
 		if (event.type == sf::Event::KeyReleased)
 		{
 			switch (event.key.code)
 			{
-				case sf::Keyboard::Up:
-					m_pushForce.y = 0.f;
-					break;
-				case sf::Keyboard::Right:
-					m_pushForce.x = 0.f;
-					break;
-				case sf::Keyboard::Down:
-					m_pushForce.y = 0.f;
-					break;
-				case sf::Keyboard::Left:
-					m_pushForce.x = 0.f;
-					break;
+			case sf::Keyboard::Up:
+				m_pushForce.y = 0.f;
+				break;
+			case sf::Keyboard::Right:
+				m_pushForce.x = 0.f;
+				break;
+			case sf::Keyboard::Down:
+				m_pushForce.y = 0.f;
+				break;
+			case sf::Keyboard::Left:
+				m_pushForce.x = 0.f;
+				break;
 			}
 		}
 
@@ -216,12 +260,12 @@ void Application::sUserInput()
 			);
 			m_impulseLine.setColor(sf::Color::Red);
 		}
-		
+
 
 
 		if (event.type == sf::Event::MouseButtonReleased)
 		{
-			if(m_leftMouseButtonDown)
+			if (m_leftMouseButtonDown)
 			{
 				m_leftMouseButtonDown = false;
 				m_lineAppear = false;
@@ -244,8 +288,8 @@ void Application::sUserInput()
 		{
 			m_impulseLine.clear();
 		}
-		
-		
+
+
 
 		//if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		//{
@@ -280,23 +324,23 @@ void Application::sMovement()
 
 	//apply the forces here: (wind/air resistance, weight, friction, drag,...)
 	for (auto& p : m_particles)
-	{	
+	{
 		//'wind' force to the right
 		/*Vec2 wind = Vec2(0.2f * PIXEL_PER_METER, 0.f);
 		p.AddForce(wind);*/
 
-		//'push' force 
-		p.AddForce(m_pushForce);
-
-		//apply drag
+		//apply drag/damp
 		Vec2 drag = Force::GenerateDragForce(p, 0.002);
 		p.AddForce(drag);
+
+		//'push' force 
+		p.AddForce(m_pushForce);
 
 		//'weight' force down (weight = mass * gravity)
 		Vec2 weight = Vec2(0.f, p.m_mass * GRAVITY * PIXEL_PER_METER);
 		p.AddForce(weight);
 
-		
+
 		//'drag' force if inside the liquid
 		//if (p.m_position.y >= m_liquid.getPosition().y)
 		//{
@@ -304,7 +348,6 @@ void Application::sMovement()
 		//	p.AddForce(drag);							   //k = 0.01 -> 0.1
 		//}
 
-		
 		//'friction' force
 		/*Vec2 friction = Force::GenerateFrictionForce(p, 20.f * PIXEL_PER_METER);
 		p.AddForce(friction);*/
@@ -312,19 +355,45 @@ void Application::sMovement()
 	}
 
 	//'spring' force (anchor)
-	Vec2 springForce = Force::GenerateSpringForce(m_particles[0], anchor, restLength, k);
-	m_particles[0].AddForce(springForce);
+	/*Vec2 springForce = Force::GenerateSpringForce(m_particles[0], anchor, restLength, k);
+	m_particles[0].AddForce(springForce);*/
 
 	//'spring' force (connected particles in chain of springs)
-	for (int i = 1; i < NUM_PARTICLES; i++)
+	/*for (int i = 1; i < NUM_PARTICLES; i++)
 	{
 		int currParticle = i;
 		int prevParticle = i - 1;
 		Vec2 springForce = Force::GenerateSpringForce(m_particles[currParticle], m_particles[prevParticle], restLength, k);
 		m_particles[currParticle].AddForce(springForce);
 		m_particles[prevParticle].AddForce(-springForce);
-	}
-	
+	}*/
+
+	// 'square shape' part
+	Vec2 ab = Force::GenerateSpringForce(m_particles[0], m_particles[1], restLength, k); // a <-> b
+	m_particles[0].AddForce(ab);
+	m_particles[1].AddForce(-ab);
+
+	Vec2 bc = Force::GenerateSpringForce(m_particles[1], m_particles[2], restLength, k); // b <-> c
+	m_particles[1].AddForce(bc);
+	m_particles[2].AddForce(-bc);
+
+	Vec2 cd = Force::GenerateSpringForce(m_particles[2], m_particles[3], restLength, k); // c <-> d
+	m_particles[2].AddForce(cd);
+	m_particles[3].AddForce(-cd);
+
+	Vec2 da = Force::GenerateSpringForce(m_particles[3], m_particles[0], restLength, k); // d <-> a
+	m_particles[3].AddForce(da);
+	m_particles[0].AddForce(-da);
+
+	// 'x shape' part
+	Vec2 ac = Force::GenerateSpringForce(m_particles[0], m_particles[2], restLength, k); // a <-> c
+	m_particles[0].AddForce(ac);
+	m_particles[2].AddForce(-ac);
+
+	Vec2 bd = Force::GenerateSpringForce(m_particles[1], m_particles[3], restLength, k); // b <-> d
+	m_particles[1].AddForce(bd);
+	m_particles[3].AddForce(-bd);
+
 
 	/*std::cout << "p1  x: " << m_particles[0].m_position.x << " y: " << m_particles[0].m_position.y << '\n';
 	std::cout << "p2  x: " << m_particles[1].m_position.x << " y: " << m_particles[1].m_position.y << '\n';*/
@@ -333,7 +402,7 @@ void Application::sMovement()
 	for (auto& i : m_particles)
 	{
 		// (implicit euler integration)
-		i.Integrate(deltaTime);
+		i.IntegrateVerlet(deltaTime);
 	}
 }
 
@@ -380,7 +449,7 @@ void Application::sRender()
 		i.draw(m_window);
 	}*/
 
-	for (int i = 0; i < NUM_PARTICLES - 1; i++)
+	/*for (int i = 0; i < NUM_PARTICLES - 1; i++)
 	{
 		int currParticle = i;
 		int nextParticle = i + 1;
@@ -388,7 +457,39 @@ void Application::sRender()
 			sf::Vector2f(m_particles[currParticle].m_position.x, m_particles[currParticle].m_position.y),
 			sf::Vector2f(m_particles[nextParticle].m_position.x, m_particles[nextParticle].m_position.y)
 		);
-	}
+	}*/
+
+	m_lines[0].setPosition(
+		sf::Vector2f(m_particles[0].m_position.x, m_particles[0].m_position.y),
+		sf::Vector2f(m_particles[1].m_position.x, m_particles[1].m_position.y)
+	);
+
+	m_lines[1].setPosition(
+		sf::Vector2f(m_particles[1].m_position.x, m_particles[1].m_position.y),
+		sf::Vector2f(m_particles[2].m_position.x, m_particles[2].m_position.y)
+	);
+
+	m_lines[2].setPosition(
+		sf::Vector2f(m_particles[2].m_position.x, m_particles[2].m_position.y),
+		sf::Vector2f(m_particles[3].m_position.x, m_particles[3].m_position.y)
+	);
+
+	m_lines[3].setPosition(
+		sf::Vector2f(m_particles[3].m_position.x, m_particles[3].m_position.y),
+		sf::Vector2f(m_particles[0].m_position.x, m_particles[0].m_position.y)
+	);
+
+	m_lines[4].setPosition(
+		sf::Vector2f(m_particles[0].m_position.x, m_particles[0].m_position.y),
+		sf::Vector2f(m_particles[2].m_position.x, m_particles[2].m_position.y)
+	);
+
+	m_lines[5].setPosition(
+		sf::Vector2f(m_particles[1].m_position.x, m_particles[1].m_position.y),
+		sf::Vector2f(m_particles[3].m_position.x, m_particles[3].m_position.y)
+	);
+
+
 
 	for (auto& i : m_lines)
 	{
@@ -405,5 +506,3 @@ void Application::sRender()
 
 	m_window.display();
 }
-
-

@@ -7,6 +7,7 @@ struct Particle
 	sf::CircleShape m_circle;
 
 	Vec2 m_position;
+	Vec2 m_oldPosition;
 	Vec2 m_velocity;
 	Vec2 m_acceleration;
 
@@ -31,7 +32,8 @@ struct Particle
 	void AddForce(const Vec2& force);
 	void ClearForces();
 
-	void Integrate(float deltaTime);
+	void IntegrateEuler(float deltaTime);
+	void IntegrateVerlet(float deltaTime);
 };
 
 //use case: particle.position = Vec2(x,y);

@@ -26,13 +26,20 @@ class Application
 
 	//impulse config
 	Line m_impulseLine;
+	
+	//change this according to the number of particles inside 'config.txt file'
+	int m_numParticles = 2; 
+
+
 
 	//spring config
-	Vec2 anchor = Vec2(0, 0);
-	float k = 300.f;
-	float restLength = 15.f;
-	const int NUM_PARTICLES = 13;
+	//Vec2 anchor = Vec2(0.f, 0.f);
+	float k = 2000.f; //stiffness
+	float restLength = 200.f; //distance
+	const int NUM_PARTICLES = 4;
+	//const int NUM_PARTICLES = 13;
 	
+
 	std::vector<ParticleConfig> m_particleConfigStorage;
 	std::vector<Particle> m_particles;
 	std::vector<Line> m_lines;
@@ -41,7 +48,7 @@ class Application
 	bool m_running = true;
 	bool m_leftMouseButtonDown = false;
 	bool m_lineAppear = false;
-	int m_numParticles = 2; //change this according to the number of particles inside config file
+	
 
 	void init(const std::string& path);
 	void sCollision();

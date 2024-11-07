@@ -3,7 +3,6 @@
 #include "Constants.h"
 
 
-
 int main()
 {
     Application app("config.txt");
@@ -12,3 +11,5 @@ int main()
 
     return 0;
 }
+
+

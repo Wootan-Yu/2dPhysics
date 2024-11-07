@@ -118,3 +118,4 @@ Vec2 Force::GenerateSpringForce(const Particle& a, const Particle& b, float rest
 	Vec2 springForce = springDirection * springMagnitude;
 	return springForce;
 }
+
